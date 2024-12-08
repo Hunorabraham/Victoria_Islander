@@ -1,1 +1,2 @@
-VITTU
+VITTU - Hunor
+PERKELE - Krys
