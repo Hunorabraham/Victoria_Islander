@@ -10,7 +10,11 @@ config_version=5
 
 [application]
 
+<<<<<<< ours
 config/name="Victoria Islander"
+=======
+config/name="VictoriaIslander"
+>>>>>>> theirs
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
