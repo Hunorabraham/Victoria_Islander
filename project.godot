@@ -13,6 +13,7 @@ config_version=5
 config/name="VictoriaIslander"
 run/main_scene="res://MainMenu.scn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
 <<<<<<<oursconfig/name="Victoria Islander"
 
@@ -24,3 +25,7 @@ version_control/autoload_on_startup=true
 [internationalization]
 
 locale/translations=PackedStringArray("res://Translations.en.translation", "res://Translations.hu.translation")
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

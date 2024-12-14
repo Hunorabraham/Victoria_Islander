@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=4 uid="uid://deqimgu8wtjf5"]
+
+[ext_resource type="TileSet" uid="uid://bxgpl8723hg5a" path="res://Textures/TileSetTest.tres" id="2_1fddh"]
+[ext_resource type="Texture2D" uid="uid://cch1m32vq36p1" path="res://Textures/CharacterTest.png" id="2_40tfq"]
+
+[sub_resource type="GDScript" id="GDScript_eeu7j"]
+resource_name = "ReadMapFunctionTest"
+script/source = "extends TileMapLayer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	# On Input, kill map and hopefully replace after
+	if (Input.is_key_pressed(KEY_J)):
+		#get_parent().get_children()[0].clear()
+		var LoaddedMap = load(\"res://Textures/TestMap0.map\")
+		var currentMap = self.get_used_cells()
+		var file = FileAccess.open(\"res://Textures/TestMap0.map\", FileAccess.WRITE)
+		file.store_string(currentMap.reduce(
+			func(total,x):
+				return total+\"\\n\"+x
+		,\"\"))
+"
+
+[sub_resource type="GDScript" id="GDScript_4kgbo"]
+resource_name = "CharacterControllerTest"
+script/source = "extends Sprite2D
+
+var Velocity = Vector2.ZERO
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	# Setting Velocity based on Player Input
+	if (Input.is_key_pressed(KEY_W)):
+		Velocity.y  -= 25 * delta
+		self.frame=4
+	if (Input.is_key_pressed(KEY_A)):
+		Velocity.x  -= 50 * delta
+		self.frame=2
+	if (Input.is_key_pressed(KEY_S)):
+		Velocity.y  += 25 * delta
+		self.frame=0
+	if (Input.is_key_pressed(KEY_D)):
+		Velocity.x  += 50 * delta
+		self.frame=6
+		
+	# Rotation of Player Character using textures frames
+	if Velocity.x > 0:
+		if Velocity.y == 0: frame=6
+		else: if Velocity.y > 0: frame=7
+		else: frame=5
+	else: if Velocity.x == 0:
+		if Velocity.y > 0: frame=0
+		else: if Velocity.y < 0: frame=4
+	else: 
+		if Velocity.y > 0: frame = 1
+		else: if Velocity.y < 0: frame = 3
+		else: frame= 2
+
+	# Application of Velocity
+	self.position+=Velocity
+	Velocity = Vector2.ZERO
+"
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-19, -34)
+tile_map_data = PackedByteArray("AAADAAUAAAABAAAAAAAFAAgAAAAAAAEAAAAGAAgAAAAAAAEAAAAEAAYAAAAAAAEAAAAEAAcAAAAAAAAAAAAFAAYAAAAAAAEAAAAFAAcAAAAAAAAAAAAGAAcAAAABAAEAAAAGAAYAAAABAAEAAAAFAAUAAAABAAAAAAAEAAUAAAAAAAEAAAADAAYAAAABAAAAAAADAAcAAAAAAAAAAAAIAAUAAAABAAAAAAAGAAUAAAABAAAAAAACAAYAAAAAAAEAAAADAAgAAAAAAAEAAAACAAcAAAABAAAAAAACAAQAAAABAAAAAAAEAAQAAAAAAAEAAAAHAAUAAAABAAAAAAAFAPz/AgAAAAAAAAAFAP3/AgAAAAAAAAAGAPz/AgAAAAAAAAAGAP3/AgAAAAEAAAAFAP7/AgAAAAEAAAAFAP//AgAAAAEAAAAGAP7/AgAAAAEAAAAGAP//AgAAAAAAAAAGAAAAAgAAAAAAAAAHAPz/AgAAAAAAAAAHAP3/AgAAAAEAAAAIAPz/AgAAAAAAAAAIAP3/AgAAAAAAAAAHAP7/AgABAAEAAAAHAP//AgAAAAAAAAAIAP7/AgAAAAAAAAAIAP//AgAAAAAAAAAHAAAAAgAAAAAAAAAIAAAAAgAAAAAAAAAJAPz/AgABAAAAAAAJAP3/AgAAAAAAAAAKAPz/AgAAAAEAAAAKAP3/AgAAAAAAAAAJAP7/AgAAAAAAAAAJAP//AgAAAAAAAAAKAP7/AgAAAAAAAAAKAP//AgAAAAAAAAAJAAAAAgAAAAAAAAAKAAAAAgAAAAAAAAALAPz/AgAAAAAAAAALAP3/AgAAAAAAAAAMAPz/AgAAAAAAAAAMAP3/AgABAAAAAAALAP7/AgAAAAEAAAALAP//AgAAAAAAAAAMAP7/AgAAAAEAAAAMAP//AgABAAEAAAALAAAAAgAAAAAAAAAMAAAAAgAAAAAAAAANAPz/AgAAAAAAAAANAP3/AgAAAAAAAAAOAPz/AgABAAEAAAAOAP3/AgAAAAAAAAANAP7/AgAAAAEAAAANAP//AgAAAAAAAAAOAP7/AgAAAAAAAAAOAP//AgAAAAAAAAANAAAAAgAAAAAAAAAOAAAAAgAAAAEAAAAPAPz/AgAAAAAAAAAPAP3/AgAAAAAAAAAQAPz/AgAAAAAAAAAQAP3/AgAAAAAAAAAPAP7/AgAAAAAAAAAPAP//AgAAAAAAAAAQAP7/AgAAAAAAAAAQAP//AgAAAAAAAAAPAAAAAgAAAAAAAAAQAAAAAgAAAAEAAAARAPz/AgABAAAAAAARAP3/AgAAAAAAAAARAP7/AgAAAAAAAAARAP//AgAAAAAAAAARAAAAAgAAAAAAAAAJAPn/AgAAAAAAAAAJAPr/AgAAAAEAAAAKAPn/AgABAAAAAAAKAPr/AgABAAEAAAALAPf/AgAAAAAAAAACAAUAAAAAAAAAAAABAAUAAAAAAAAAAAAAAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAQAAAABAAAAAAAAAAQAAAABAAAAAAAAAAMAAAABAAAAAAABAAMAAAABAAAAAAACAAMAAAABAAAAAAADAAMAAAAAAAEAAAACAAIAAAABAAAAAAADAAQAAAAAAAEAAAA=")
+tile_set = ExtResource("2_1fddh")
+script = SubResource("GDScript_eeu7j")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(22, -52)
+texture = ExtResource("2_40tfq")
+hframes = 8
+script = SubResource("GDScript_4kgbo")
+
+[node name="Camera2D" type="Camera2D" parent="Sprite2D"]
+zoom = Vector2(3, 3)
+metadata/Velocity = Vector2(0, 0)
