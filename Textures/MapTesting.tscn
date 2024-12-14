@@ -22,7 +22,8 @@ func _process(delta: float) -> void:
 		for cords in LoadedMap.get_as_text().split(\"\\n\"):
 			var x = cords.split(\",\")
 			self.set_cell(Vector2i(int(x[0]),int(x[1])),1,Vector2i.ZERO)
-		
+	if (Input.is_key_pressed(KEY_K)):
+		get_tree().change_scene_to_file(\"res://MainMenu.scn\")
 		#var currentMap = self.get_used_cells()
 		#var file = FileAccess.open(\"res://Textures/TestMap0.map\", FileAccess.WRITE)
 		#file.store_string(currentMap.reduce(
