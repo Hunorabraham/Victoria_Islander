@@ -10,11 +10,26 @@ config_version=5
 
 [application]
 
+<<<<<<< HEAD
 config/name="victoria_islander"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+=======
+config/name="VictoriaIslander"
+run/main_scene="res://MainMenu.scn"
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon="res://icon.svg"
+<<<<<<<oursconfig/name="Victoria Islander"
+>>>>>>> f55e25f94206f72732c24cb036008e20114b5fbd
 
 [editor]
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+<<<<<<< HEAD
+=======
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://Translations.en.translation", "res://Translations.hu.translation")
+>>>>>>> f55e25f94206f72732c24cb036008e20114b5fbd
